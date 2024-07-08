@@ -1,7 +1,11 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Customer;
+import com.example.demo.model.Login;
 import com.example.demo.repository.CustomerRepository;
+import com.example.demo.repository.LoginRepository;
+import com.example.demo.security.SecurityConfig;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -25,12 +29,18 @@ public class AdminController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private SecurityConfig securityConfig;
+
+    @Autowired
+    private LoginRepository loginRepository;
+
     @GetMapping("/home")
-public String adminHome(Model model) {
-    int userCount = countOfUsers(); 
-    model.addAttribute("userCount", userCount);
-    return "adminHome";
-}
+    public String adminHome(Model model) {
+        int userCount = countOfUsers(); 
+        model.addAttribute("userCount", userCount);
+        return "adminHome";
+    }
 
 
     @GetMapping("/addUser")
@@ -110,6 +120,12 @@ public String adminHome(Model model) {
         .collect(Collectors.toList());
         return customers.size();
     }
-    
+
+    @GetMapping("/recentLogins")
+    public String showRecentLogins(Model model) {
+        List<Login> recentLogins = loginRepository.findTop10ByOrderByLoginTimeDesc();
+        model.addAttribute("recentLogins", recentLogins);
+        return "recentLogins";
+    }
 
 }

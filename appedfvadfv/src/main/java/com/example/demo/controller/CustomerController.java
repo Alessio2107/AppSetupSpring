@@ -1,7 +1,10 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Customer;
+import com.example.demo.model.Login;
 import com.example.demo.repository.CustomerRepository;
+import com.example.demo.repository.LoginRepository;
+import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +29,9 @@ public class CustomerController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private LoginRepository loginRepository;
+
     @PostMapping("/register")
     public ResponseEntity<String> registerCustomer(@RequestBody Customer customer) {
         logger.info("Registering new customer: " + customer.getEmail());
@@ -49,24 +55,30 @@ public class CustomerController {
     }
 
     @PostMapping("/perform_login")
-public ResponseEntity<?> performLogin(@RequestBody Map<String, String> loginRequest) {
-    String username = loginRequest.get("username");
-    String password = loginRequest.get("password");
+    public ResponseEntity<?> performLogin(@RequestBody Map<String, String> loginRequest) {
+        String username = loginRequest.get("username");
+        String password = loginRequest.get("password");
 
-    Optional<Customer> customerOpt = customerRepository.findByEmail(username).stream().findFirst();
+        Optional<Customer> customerOpt = customerRepository.findByEmail(username).stream().findFirst();
 
-    if (customerOpt.isPresent()) {
-        Customer customer = customerOpt.get();
+        if (customerOpt.isPresent()) {
+            Customer customer = customerOpt.get();
 
-        if (passwordEncoder.matches(password, customer.getPwd())) {
-            Map<String, Object> responseData = new HashMap<>();
-            responseData.put("username", username);
-            responseData.put("role", customer.getRole());
-            return ResponseEntity.ok(responseData);
+            if (passwordEncoder.matches(password, customer.getPwd())) {
+                logger.info("Login successful for user: " + username);
+                Login login = new Login(username, LocalDateTime.now());
+                loginRepository.save(login);
+                System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                System.out.println("Login successful for user: " + login);
+
+                Map<String, Object> responseData = new HashMap<>();
+                responseData.put("username", username);
+                responseData.put("role", customer.getRole());
+                return ResponseEntity.ok(responseData);
+            } 
         } 
-    } 
-    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
-}
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+    }
 
     @PostMapping("/change-password")
     public ResponseEntity<String> changePassword(@RequestParam String email, @RequestParam String oldPwd, @RequestParam String newPwd) {
@@ -106,6 +118,16 @@ public ResponseEntity<?> performLogin(@RequestBody Map<String, String> loginRequ
         model.addAttribute("customers", customers);
 
         return "users";
+    }
+
+    @GetMapping("/customer/profile")
+    public String showProfilePage(Model model) {
+        return "customerProfile";
+    }
+
+    @GetMapping("/customer/settings")
+    public String showUserSetting(Model model) {
+        return "customerSettings";
     }
 
 
