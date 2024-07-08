@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Show Users</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #4e54c8, #8f94fb);
+            margin: 0;
+            padding: 0;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .user-table {
+            width: 80%;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.2);
+            border-collapse: collapse;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .user-table th, .user-table td {
+            padding: 1rem;
+            text-align: left;
+        }
+        .user-table th {
+            background: #333;
+        }
+        .user-table tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .user-table tr:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .delete-button {
+            color: red;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+        .delete-button:hover {
+            color: darkred;
+        }
+    </style>
+</head>
+<body>
+    <div class="user-table-container">
+        <h2>All Users</h2>
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="customer : ${customers}">
+                    <td th:text="${customer.id}">1</td>
+                    <td th:text="${customer.email}">user@example.com</td>
+                    <td th:text="${customer.role}">ROLE_USER</td>
+                    <td>
+                        <form th:action="@{/admin/deleteUser}" method="post">
+                            <input type="hidden" name="id" th:value="${customer.id}" />
+                            <button type="submit" class="delete-button"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Home</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #4e54c8, #8f94fb);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            color: white;
+        }
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #333;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .navbar h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .navbar .icons {
+            display: flex;
+            gap: 1rem;
+        }
+        .navbar .icons a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        .navbar .icons a:hover {
+            color: #8f94fb;
+        }
+        .content {
+            margin-top: 5rem;
+            text-align: center;
+            max-width: 800px;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .content h2 {
+            margin-bottom: 1rem;
+        }
+        .content p {
+            line-height: 1.6;
+        }
+        .content .buttons {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .content .buttons a {
+            padding: 0.75rem 1.5rem;
+            background-color: #333;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .content .buttons a:hover {
+            background-color: #555;
+        }
+        .statistics {
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+        .statistics .stat {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 1rem;
+            border-radius: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div>
+            <a href="/admin/home">Admin Dashboard</a>
+        </div>
+        <div class="icons">
+            <a href="/admin/users" title="Show all users"><i class="fas fa-users"></i></a>
+            <a href="/admin/settings" title="Settings"><i class="fas fa-cog"></i></a>
+            <a href="/logout" title="Logout"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+    </div>
+    <div class="content">
+        <h2>Welcome, Admin!</h2>
+        <p>This is the admin dashboard where you can manage users and view site statistics.</p>
+        <p>Use the icons in the navigation bar to access user management or to logout.</p>
+        <p>Here you can add more information, graphs, statistics, or quick links to other admin functionalities.</p>
+        <div class="buttons">
+            <a href="/admin/addUser">Add New User</a>
+            <a href="/admin/settings">Settings</a>
+        </div>
+        <div class="statistics">
+            <div class="stat">
+                <h3>Total Users</h3>
+                <p th:text="${userCount}"></p>
+            </div>
+            <div class="stat">
+                <h3>Active Sessions</h3>
+                <p>56</p>
+            </div>
+            <div class="stat">
+                <h3>Pending Tasks</h3>
+                <p>8</p>
+            </div>
+            <div class="stat">
+                <h3>Send Email</h3>
+                <a href="/admin/emailUsers"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
