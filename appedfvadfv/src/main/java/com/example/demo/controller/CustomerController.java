@@ -5,10 +5,15 @@ import com.example.demo.model.Login;
 import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.LoginRepository;
 import java.time.LocalDateTime;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,10 +23,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-@RestController
+@Controller
 @RequestMapping("/customer")
 public class CustomerController {
     private static final Logger logger = Logger.getLogger(CustomerController.class.getName());
+
+    
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -66,11 +73,6 @@ public class CustomerController {
 
             if (passwordEncoder.matches(password, customer.getPwd())) {
                 logger.info("Login successful for user: " + username);
-                Login login = new Login(username, LocalDateTime.now());
-                loginRepository.save(login);
-                System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                System.out.println("Login successful for user: " + login);
-
                 Map<String, Object> responseData = new HashMap<>();
                 responseData.put("username", username);
                 responseData.put("role", customer.getRole());
@@ -119,16 +121,39 @@ public class CustomerController {
 
         return "users";
     }
+    @GetMapping("/profile")
+public String showProfilePage(Model model) {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String email = null;
 
-    @GetMapping("/customer/profile")
-    public String showProfilePage(Model model) {
-        return "customerProfile";
+    if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+        email = ((UserDetails) authentication.getPrincipal()).getUsername();
+        logger.info("User email from UserDetails: " + email);
+    } else if (authentication != null && authentication.getPrincipal() instanceof String) {
+        email = (String) authentication.getPrincipal();
+        logger.info("User email from Principal: " + email);
     }
 
-    @GetMapping("/customer/settings")
+    if (email != null) {
+        Optional<Customer> customerOpt = customerRepository.findByEmail(email).stream().findFirst();
+        if (customerOpt.isPresent()) {
+            Customer customer = customerOpt.get();
+            model.addAttribute("customer", customer);
+        } else {
+            model.addAttribute("error", "No customer found with the given email.");
+            logger.warning("No customer found with email: " + email);
+        }
+    } else {
+        model.addAttribute("error", "Unable to retrieve user email.");
+        logger.warning("Unable to retrieve user email from authentication object.");
+    }
+
+    return "customerProfile";
+}
+
+    @GetMapping("/settings")
     public String showUserSetting(Model model) {
         return "customerSettings";
     }
-
 
 }

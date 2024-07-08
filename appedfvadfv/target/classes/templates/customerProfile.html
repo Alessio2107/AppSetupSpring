@@ -1,18 +1,95 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profilo</title>
+    <title>Profilo Utente</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+        }
+        .profile-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+        }
+        .profile-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .profile-header img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid #fff;
+        }
+        .profile-header h1 {
+            margin-top: 10px;
+        }
+        .profile-info {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .profile-info div {
+            flex: 1;
+            padding: 10px;
+        }
+        .profile-info label {
+            font-weight: bold;
+        }
+        .btn-home {
+            display: block;
+            margin: 20px auto;
+            width: 100px;
+            text-align: center;
+        }
+        .btn-home i {
+            margin-right: 5px;
+        }
+    </style>
 </head>
 <body>
-    <div>
-        <h1>Profilo</h1>
-        <p>Questo e' il tuo profilo</p>
+    <div class="profile-container" th:if="${customer != null}">
+        <div class="profile-header">
+            <img src="https://via.placeholder.com/150" alt="Profile Picture">
+            <h1 th:text="${customer.name}">Nome Utente</h1>
+            <p th:text="'Email: ' + ${customer.email}">Email: utente@example.com</p>
+        </div>
+        <div class="profile-info">
+            <div>
+                <label>Nome:</label>
+                <p th:text="${customer.name}">Mario Rossi</p>
+            </div>
+            <div>
+                <label>Email:</label>
+                <p th:text="${customer.email}">mario.rossi@example.com</p>
+            </div>
+            <div>
+                <label>Data di Nascita:</label>
+                <p th:text="${customer.birthDate}">01/01/1980</p>
+            </div>
+            <div>
+                <label>Indirizzo:</label>
+                <p th:text="${customer.address}">Via Roma 1, 00100 Roma</p>
+            </div>
+        </div>
+        <a href="/customer/home" class="btn btn-secondary btn-home">
+            <i class="fas fa-home"></i> Home
+        </a>
     </div>
-    <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
-        <a href="/customer/home" class="btn btn-secondary mt-3"><i class="fas fa-home"></i></a>
+    <div th:if="${customer == null}" class="alert alert-danger" role="alert">
+        <p th:text="${error}">Error message here</p>
+        <a href="/customer/home" class="btn btn-secondary btn-home">
+            <i class="fas fa-home"></i> Home
+        </a>
     </div>
 </body>
 </html>
