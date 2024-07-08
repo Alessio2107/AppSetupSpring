@@ -86,7 +86,10 @@
             </div>
         </form>
         <div th:if="${successMessage}" class="success-message" th:text="${successMessage}"></div>
-        <a href="/admin/home" class="back-button"><i class="fas fa-home"></i></a>
+        
+        <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
+            <a href="/admin/home" class="btn btn-secondary mt-3"><i class="fas fa-home"></i></a>
+        </div>
     </div>
 </body>
 </html>

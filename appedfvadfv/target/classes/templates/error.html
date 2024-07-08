@@ -14,6 +14,7 @@
             justify-content: center;
             height: 100vh;
             color: white;
+            cursor: pointer; /* Add cursor pointer to indicate clickable area */
         }
 
         h1 {
@@ -51,14 +52,13 @@
         }
     </style>
 </head>
-<body>
+<body onclick="window.location.href='/admin/home'">
     <div class="error-container">
         <h1>Error Page</h1>
         <p th:text="${error}"></p>
         <p th:text="${message}"></p>
         <p th:text="${timestamp}"></p>
         <p th:text="${status}"></p>
-        <a href="/login" class="back-button">Back to Login</a>
     </div>
 </body>
 </html>

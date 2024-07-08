@@ -70,7 +70,10 @@
         </form>
         <div th:if="${successMessage}" class="message success" th:text="${successMessage}"></div>
         <div th:if="${errorMessage}" class="message error" th:text="${errorMessage}"></div>
-        <a href="/admin/home" class="btn btn-secondary mt-3"><i class="fas fa-home"></i> Back to Home</a>
+        
+        <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
+            <a href="/admin/home" class="btn btn-secondary mt-3"><i class="fas fa-home"></i></a>
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
