@@ -26,9 +26,13 @@ public class Customer {
         this.pwd = pwd;
         this.role = role;
     }
+    
     public Customer(){
 
     }
+
+
+
     public Long getId() {
         return id;
     }

@@ -122,7 +122,7 @@ public class CustomerController {
         return "users";
     }
     @GetMapping("/profile")
-public String showProfilePage(Model model) {
+    public String showProfilePage(Model model) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     String email = null;
 
