@@ -11,10 +11,40 @@
             background: linear-gradient(to right, #6a11cb, #2575fc);
             color: #fff;
             font-family: 'Arial', sans-serif;
+            padding-top: 70px; /* Aggiungi questo padding per fare spazio alla navbar */
+        }
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .navbar h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .navbar .icons {
+            display: flex;
+            gap: 1rem;
+        }
+        .navbar .icons a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        .navbar .icons a:hover {
+            color: #8f94fb;
         }
         .profile-container {
             max-width: 800px;
-            margin: 50px auto;
+            margin: 70px auto 50px; /* Modifica il margine superiore qui */
             background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
@@ -57,33 +87,37 @@
     </style>
 </head>
 <body>
+    <div class="navbar mb-3">
+        <div class="icons">
+            <div class="box-shadow" style="display: flex; justify-content: center; align-items: center; margin-top: 0px; border-radius: rounded; border: none;">
+                <a href="/customer/home" class="btn btn-secondary"><i class="fas fa-home"></i></a>
+            </div>
+        </div>
+    </div>
     <div class="profile-container" th:if="${customer != null}">
         <div class="profile-header">
             <img src="https://via.placeholder.com/150" alt="Profile Picture">
-            <h1 th:text="${customer.name}">Nome Utente</h1>
+            <!-- <h1 th:text="${customer.name}">Nome Utente</h1> -->
             <p th:text="'Email: ' + ${customer.email}">Email: utente@example.com</p>
         </div>
         <div class="profile-info">
-            <div>
+            <!-- <div>
                 <label>Nome:</label>
                 <p th:text="${customer.name}">Mario Rossi</p>
-            </div>
+            </div> -->
             <div>
                 <label>Email:</label>
                 <p th:text="${customer.email}">mario.rossi@example.com</p>
             </div>
-            <div>
+            <!-- <div>
                 <label>Data di Nascita:</label>
                 <p th:text="${customer.birthDate}">01/01/1980</p>
             </div>
             <div>
                 <label>Indirizzo:</label>
                 <p th:text="${customer.address}">Via Roma 1, 00100 Roma</p>
-            </div>
+            </div> -->
         </div>
-        <a href="/customer/home" class="btn btn-secondary btn-home">
-            <i class="fas fa-home"></i> Home
-        </a>
     </div>
     <div th:if="${customer == null}" class="alert alert-danger" role="alert">
         <p th:text="${error}">Error message here</p>

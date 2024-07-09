@@ -123,33 +123,37 @@ public class CustomerController {
     }
     @GetMapping("/profile")
     public String showProfilePage(Model model) {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    String email = null;
-
-    if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-        email = ((UserDetails) authentication.getPrincipal()).getUsername();
-        logger.info("User email from UserDetails: " + email);
-    } else if (authentication != null && authentication.getPrincipal() instanceof String) {
-        email = (String) authentication.getPrincipal();
-        logger.info("User email from Principal: " + email);
-    }
-
-    if (email != null) {
-        Optional<Customer> customerOpt = customerRepository.findByEmail(email).stream().findFirst();
-        if (customerOpt.isPresent()) {
-            Customer customer = customerOpt.get();
-            model.addAttribute("customer", customer);
-        } else {
-            model.addAttribute("error", "No customer found with the given email.");
-            logger.warning("No customer found with email: " + email);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = null;
+    
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            email = ((UserDetails) authentication.getPrincipal()).getUsername();
+            logger.info("User email from UserDetails: " + email);
+        } else if (authentication != null && authentication.getPrincipal() instanceof String) {
+            email = (String) authentication.getPrincipal();
+            logger.info("User email from Principal: " + email);
         }
-    } else {
-        model.addAttribute("error", "Unable to retrieve user email.");
-        logger.warning("Unable to retrieve user email from authentication object.");
+    
+        if (email != null) {
+            Optional<Customer> customerOpt = customerRepository.findByEmail(email).stream().findFirst();
+    
+            if (customerOpt.isPresent()) {
+                Customer customer = customerOpt.get();
+                model.addAttribute("customer", customer);
+                logger.info("User found by email: " + email);
+            } else {
+                model.addAttribute("customer", null);
+                model.addAttribute("error", "No customer found with the given email.");
+                logger.warning("User not found by email: " + email);
+            }
+        } else {
+            model.addAttribute("error", "Unable to retrieve user email.");
+            logger.warning("Unable to retrieve user email from authentication object.");
+        }
+    
+        return "customerProfile";
     }
-
-    return "customerProfile";
-}
+    
 
     @GetMapping("/settings")
     public String showUserSetting(Model model) {

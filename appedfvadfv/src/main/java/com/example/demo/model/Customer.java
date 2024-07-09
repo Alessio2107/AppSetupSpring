@@ -8,6 +8,8 @@ import lombok.*;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,16 +22,6 @@ public class Customer {
     private String role;
 
     private String pwd;
-
-    public Customer(String email, String pwd, String role) {
-        this.email = email;
-        this.pwd = pwd;
-        this.role = role;
-    }
-    
-    public Customer(){
-
-    }
 
 
 
