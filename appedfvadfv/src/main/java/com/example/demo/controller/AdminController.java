@@ -6,6 +6,7 @@ import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.LoginRepository;
 import com.example.demo.security.SecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +40,6 @@ public class AdminController {
         model.addAttribute("userCount", userCount);
         return "adminHome";
     }
-
 
     @GetMapping("/addUser")
     public String showAddUserForm() {
@@ -130,6 +130,13 @@ public class AdminController {
         List<Login> recentLogins = loginRepository.findTop10ByOrderByLoginTimeDesc();
         model.addAttribute("recentLogins", recentLogins);
         return "recentLogins";
+    }
+
+    @DeleteMapping("/deleteLogin")
+    @ResponseBody
+    public ResponseEntity<String> deleteLogin(@RequestParam Long id) {
+        loginRepository.deleteById(id);
+        return ResponseEntity.ok("Login deleted");
     }
 
 }
