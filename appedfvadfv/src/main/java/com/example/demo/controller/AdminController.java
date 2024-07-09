@@ -5,13 +5,11 @@ import com.example.demo.model.Login;
 import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.LoginRepository;
 import com.example.demo.security.SecurityConfig;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -89,8 +87,14 @@ public class AdminController {
     }
 
     @PostMapping("/deleteUser")
-    public String deleteUser(@RequestParam Long id) {
-        customerRepository.deleteById(id);
+    public String deleteUser(@RequestParam Long id, Model model) {
+        Optional<Customer> customer = customerRepository.findById(id);
+        if (customer.isPresent()) {
+            customerRepository.deleteById(id);
+            model.addAttribute("successMessage", "User deleted successfully!");
+        } else {
+            model.addAttribute("errorMessage", "User not found!");
+        }
         return "redirect:/admin/users";
     }
 

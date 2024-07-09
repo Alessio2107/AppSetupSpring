@@ -48,10 +48,48 @@
         .back-button i {
             margin-right: 0.5rem;
         }
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            
+        }
+        .navbar h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .navbar .icons {
+            display: flex;
+            gap: 1rem;
+        }
+        .navbar .icons a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        .navbar .icons a:hover {
+            color: #8f94fb;
+        }
     </style>
 </head>
 <body>
     <div class="form-container">
+        <div class="navbar mb-3">
+            <div class="icons">
+                <div  class="box-shadow" style="display: flex; justify-content: center; 
+                    align-items: center; margin-top: 0px;border-radius: rounded; border: none; ">
+                    <a href="/admin/home" class="btn btn-secondary"><i class="fas fa-home"></i></a>
+                </div>
+            </div>
+        </div>
         <h2>Admin Settings</h2>
         <form th:action="@{/admin/updatePassword}" method="post">
             <div class="form-group">
