@@ -139,4 +139,70 @@ public class AdminController {
         return ResponseEntity.ok("Login deleted");
     }
 
+    @GetMapping("/incompleteProfiles")
+    public String incompleteProfiles(Model model) {
+        List<Customer> incompleteUsers = customerRepository.findCustomersWithIncompleteProfiles();
+        model.addAttribute("incompleteUsers", incompleteUsers);
+        return "IncompleteProfiles";
+    }
+
+
+    @GetMapping("/completeProfile")
+    public String completeUserProfile(@RequestParam("id") Long id, Model model) {
+        Optional<Customer> user = customerRepository.findById(id);
+        if (user.isPresent()) {
+            model.addAttribute("customer", user.get());
+            return "completeUserProfile";
+        } else {
+            model.addAttribute("errorMessage", "User not found!");
+            return "redirect:/admin/incompleteProfiles";
+        }
+    }
+
+    @PostMapping("/completeProfile")
+    public String saveUserProfile(@ModelAttribute Customer customer, Model model) {
+        Optional<Customer> existingCustomerOpt = customerRepository.findById(customer.getId());
+        if (existingCustomerOpt.isPresent()) {
+            Customer existingCustomer = existingCustomerOpt.get();
+            
+            if (customer.getName() != null && customer.getName().isEmpty()) {
+                customer.setName(null);
+            }
+            if (customer.getAddress() != null && customer.getAddress().isEmpty()) {
+                customer.setAddress(null);
+            }
+            if (customer.getCity() != null && customer.getCity().isEmpty()) {
+                customer.setCity(null);
+            }
+            if (customer.getState() != null && customer.getState().isEmpty()) {
+                customer.setState(null);
+            }
+            if (customer.getZip() != null && customer.getZip().isEmpty()) {
+                customer.setZip(null);
+            }
+            if (customer.getPhoneNumber() != null && customer.getPhoneNumber().isEmpty()) {
+                customer.setPhoneNumber(null);
+            }
+            if (customer.getUsername() != null && customer.getUsername().isEmpty()) {
+                customer.setUsername(null);
+            }
+            if (customer.getGender() != null && customer.getGender().isEmpty()) {
+                customer.setGender(null);
+            }
+            
+            if (customer.getPwd() == null || customer.getPwd().isEmpty()) {
+                customer.setPwd(existingCustomer.getPwd());
+            }
+
+            customerRepository.save(customer);
+            model.addAttribute("successMessage", "Profile updated successfully!");
+        } else {
+            model.addAttribute("errorMessage", "User not found!");
+        }
+        
+        return "redirect:/admin/incompleteProfiles";
+    }
+
+
+
 }

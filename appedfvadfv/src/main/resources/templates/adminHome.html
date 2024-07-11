@@ -114,18 +114,20 @@
         <div class="statistics">
             <div class="stat">
                 <h3>Total Users</h3>
-                <p th:text="${userCount}"></p>
-            </div>
-            <!-- //navigate to recentLogins.html -->
-            <div class="stat" >
-                <h3>Recently Logins</h3>
-                <a href="/admin/recentLogins"><i class="fas fa-history"></i></a>
-                
+                <a th:text="${userCount}" href="/admin/users"></a>
             </div>
             <div class="stat">
-                <h3>Pending Tasks</h3>
-                <p>8</p>
+                <h3>Recently Logins</h3>
+                <a href="/admin/recentLogins"><i class="fas fa-history"></i></a>
             </div>
+            <div class="stat">
+                <h3>U.W.I.P.</h3>
+                <a class="incomplete-profiles mt-11" href="/admin/incompleteProfiles" style="display: flex; align-items: center; justify-content: center; color: white;margin-top:45px">
+                    <span th:text="${incompleteProfileCount}" style="margin-right: 0.5rem;"></span>
+                    <i class="fas fa-user-times" th:classappend="${incompleteProfileCount > 0} ? 'text-danger' : 'text-white'"></i>
+                </a>
+            </div>
+            
             <div class="stat">
                 <h3>Send Email</h3>
                 <a href="/admin/emailUsers"><i class="fas fa-envelope"></i></a>

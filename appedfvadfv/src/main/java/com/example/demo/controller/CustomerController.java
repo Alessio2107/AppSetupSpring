@@ -104,12 +104,8 @@ public class CustomerController {
                     return ResponseEntity.badRequest().body("Invalid email or old password!");
                 }
             }
-            
         }
-        
-        
     }
-
 
     @PostMapping("/recover-password")
     public ResponseEntity<String> recoverPassword(@RequestParam String email) {

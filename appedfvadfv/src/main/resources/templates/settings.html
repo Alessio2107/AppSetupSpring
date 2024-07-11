@@ -81,15 +81,15 @@
     </style>
 </head>
 <body>
-    <div class="form-container">
-        <div class="navbar mb-3">
-            <div class="icons">
-                <div  class="box-shadow" style="display: flex; justify-content: center; 
-                    align-items: center; margin-top: 0px;border-radius: rounded; border: none; ">
-                    <a href="/admin/home" class="btn btn-secondary"><i class="fas fa-home"></i></a>
-                </div>
+    <div class="navbar mb-3">
+        <h1>Impostazioni Admin</h1>
+        <div class="icons">
+            <div class="box-shadow" style="display: flex; justify-content: center; align-items: center; margin-top: 0px; border-radius: rounded; border: none;">
+                <a href="/admin/home" class="btn btn-secondary"><i class="fas fa-home"></i></a>
             </div>
         </div>
+    </div>
+    <div class="form-container">
         <h2>Admin Settings</h2>
         <form th:action="@{/admin/updatePassword}" method="post">
             <div class="form-group">
