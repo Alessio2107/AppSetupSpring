@@ -11,7 +11,7 @@
             background: linear-gradient(to right, #6a11cb, #2575fc);
             color: #fff;
             font-family: 'Arial', sans-serif;
-            padding-top: 70px; /* Aggiungi questo padding per fare spazio alla navbar */
+            padding-top: 70px;
         }
         .navbar {
             position: fixed;
@@ -44,7 +44,7 @@
         }
         .profile-container {
             max-width: 800px;
-            margin: 70px auto 50px; /* Modifica il margine superiore qui */
+            margin: 70px auto 50px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
@@ -88,6 +88,8 @@
 </head>
 <body>
     <div class="navbar mb-3">
+        <!-- <h1>Profilo Utente: <span th:text="${customer.name}"></span></h1> -->
+         <h1>Profilo Utente</h1>
         <div class="icons">
             <div class="box-shadow" style="display: flex; justify-content: center; align-items: center; margin-top: 0px; border-radius: rounded; border: none;">
                 <a href="/customer/home" class="btn btn-secondary"><i class="fas fa-home"></i></a>

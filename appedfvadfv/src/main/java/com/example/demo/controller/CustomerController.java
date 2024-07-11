@@ -83,17 +83,33 @@ public class CustomerController {
     }
 
     @PostMapping("/change-password")
-    public ResponseEntity<String> changePassword(@RequestParam String email, @RequestParam String oldPwd, @RequestParam String newPwd) {
-        Optional<Customer> customerOpt = customerRepository.findByEmail(email).stream().findFirst();
+    public ResponseEntity<String> changePassword(@RequestBody Map<String, String> passwordRequest) {
+        String email = passwordRequest.get("email");
+        String oldPwd = passwordRequest.get("oldPwd");
+        String newPwd = passwordRequest.get("newPwd");
 
-        if (customerOpt.isPresent() && passwordEncoder.matches(oldPwd, customerOpt.get().getPwd())) {
-            Customer customer = customerOpt.get();
-            customer.setPwd(passwordEncoder.encode(newPwd));
-            customerRepository.save(customer);
-            return ResponseEntity.ok("Password changed successfully!");
+        Optional<Customer> customerOpt = customerRepository.findByEmail(email).stream().findFirst();
+        if(oldPwd == null || newPwd == null){
+            return ResponseEntity.badRequest().body("Old password and new password are required!");
+        }else{
+            if(oldPwd.equals(newPwd)){
+                return ResponseEntity.badRequest().body("Old password and new password cannot be the same!");
+            }else{
+                if (customerOpt.isPresent() && passwordEncoder.matches(oldPwd, customerOpt.get().getPwd())) {
+                    Customer customer = customerOpt.get();
+                    customer.setPwd(passwordEncoder.encode(newPwd));
+                    customerRepository.save(customer);
+                    return ResponseEntity.ok("Password changed successfully!");
+                }else{
+                    return ResponseEntity.badRequest().body("Invalid email or old password!");
+                }
+            }
+            
         }
-        return ResponseEntity.badRequest().body("Invalid email or old password!");
+        
+        
     }
+
 
     @PostMapping("/recover-password")
     public ResponseEntity<String> recoverPassword(@RequestParam String email) {
