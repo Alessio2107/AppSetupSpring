@@ -36,10 +36,13 @@ public class AdminController {
 
     @GetMapping("/home")
     public String adminHome(Model model) {
-        int userCount = countOfUsers(); 
+        int userCount = countOfUsers();
+        int incompleteProfileCount = customerRepository.findCustomersWithIncompleteProfiles().size();
         model.addAttribute("userCount", userCount);
+        model.addAttribute("incompleteProfileCount", incompleteProfileCount);
         return "adminHome";
     }
+
 
     @GetMapping("/addUser")
     public String showAddUserForm() {
