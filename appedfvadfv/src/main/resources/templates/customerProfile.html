@@ -107,6 +107,7 @@
             <img src="https://via.placeholder.com/150" alt="Profile Picture">
             <h1 th:text="${customer.name}">Nome Utente</h1>
             <p th:text="'Email: ' + ${customer.email}">Email: utente@example.com</p>
+            <button class="btn btn-primary btn-home" onclick="location.href='/customer/editProfile'">Modifica</button>
         </div>
         <div class="profile-info">
             <div>

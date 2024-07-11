@@ -206,6 +206,13 @@ public class AdminController {
         return "redirect:/admin/incompleteProfiles";
     }
 
+    @GetMapping("/profile")
+    public String adminProfile(Model model) {
+        model.addAttribute("customer", null);
+        model.addAttribute("error", null);
+        return "adminProfile";
+    }
+
 
 
 }
