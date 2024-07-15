@@ -78,11 +78,6 @@
             box-shadow: 0 0 10px rgba(143, 148, 251, 0.5);
         }
     </style>
-    <script>
-        function javaStampa() {
-            console.log("Java Stampa");
-        }
-    </script>
 </head>
 <body>
     <div class="login-form">
@@ -102,7 +97,7 @@
             </div>
             <div th:if="${param.error}" class="error">
                 Invalid username or password.
-            </div>
+            </div>            
             <div th:if="${param.logout}" class="logout">
                 You have been logged out.
             </div>
